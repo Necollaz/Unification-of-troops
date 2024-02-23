@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 internal class Program
 {
     private static void Main(string[] args)
@@ -45,33 +49,24 @@ public class Army
     {
         Console.WriteLine("Список отряда 1 до перевода: ");
 
-        foreach (var soldier in _squad1)
-        {
-            soldier.ShowInfo();
-        }
+        _squad1.ForEach(soldier => soldier.ShowInfo());
 
         var soldierToTransfer = _squad1.Where(soldier => soldier.Name.StartsWith("Б")).ToList();
 
-        foreach (var soldier in soldierToTransfer)
+        soldierToTransfer.ForEach(soldier =>
         {
             Console.WriteLine($"\nСолдат - {soldier.Name} переведен в отряд 2.");
             _squad2.Add(soldier);
-        }
+        });
 
-        _squad1.RemoveAll(soldier => soldier.Name.StartsWith("Б"));
+        _squad1.RemoveAll(soldier => soldierToTransfer.Contains(soldier));
 
         Console.WriteLine("\nСписок отряда 1 после перевода: ");
 
-        foreach (var soldier in _squad1)
-        {
-            soldier.ShowInfo();
-        }
+        _squad1.ForEach(soldier => soldier.ShowInfo());
 
         Console.WriteLine("\nОтряд 2: ");
 
-        foreach (var soldier in _squad2)
-        {
-            soldier.ShowInfo();
-        }
+        _squad2.ForEach(soldier => soldier.ShowInfo());
     }
 }
