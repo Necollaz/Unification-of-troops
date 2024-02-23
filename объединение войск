@@ -47,26 +47,27 @@ public class Army
 
     public void TransferSoldiers()
     {
-        Console.WriteLine("Список отряда 1 до перевода: ");
+        string letter = "Б";
 
-        _squad1.ForEach(soldier => soldier.ShowInfo());
+        ShowSoldiers(_squad1);
 
-        var soldierToTransfer = _squad1.Where(soldier => soldier.Name.StartsWith("Б")).ToList();
+        var soldierToTransfer = _squad1.Where(soldier => soldier.Name.StartsWith(letter)).ToList();
 
         soldierToTransfer.ForEach(soldier =>
         {
             Console.WriteLine($"\nСолдат - {soldier.Name} переведен в отряд 2.");
-            _squad2.Add(soldier);
         });
 
-        _squad1.RemoveAll(soldier => soldierToTransfer.Contains(soldier));
+        _squad2.AddRange(soldierToTransfer);
+        _squad1 = _squad1.Where(soldier => !soldier.Name.StartsWith(letter)).ToList();
 
-        Console.WriteLine("\nСписок отряда 1 после перевода: ");
+        ShowSoldiers(_squad1);
+        ShowSoldiers(_squad2);
+    }
 
-        _squad1.ForEach(soldier => soldier.ShowInfo());
-
-        Console.WriteLine("\nОтряд 2: ");
-
-        _squad2.ForEach(soldier => soldier.ShowInfo());
+    private void ShowSoldiers(List<Soldier> squad)
+    {
+        Console.WriteLine("\nСписок солдат: ");
+        squad.ForEach(soldier => soldier.ShowInfo());
     }
 }
