@@ -1,0 +1,77 @@
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Army army = new Army();
+        army.TransferSoldiers();
+        Console.ReadKey();
+    }
+}
+
+public class Soldier
+{
+    public Soldier(string name)
+    {
+        Name = name;
+    }
+
+    public string Name { get; private set; }
+
+    public void ShowInfo()
+    {
+        Console.WriteLine($"Солдат: {Name}.");
+    }
+}
+
+public class Army
+{
+    private List<Soldier> _squad1;
+    private List<Soldier> _squad2;
+
+    public Army()
+    {
+        _squad1 = new List<Soldier>
+        {
+            new Soldier("Бобров"),
+            new Soldier("Федоров"),
+            new Soldier("Боков"),
+            new Soldier("Афанасьев"),
+        };
+
+        _squad2 = new List<Soldier>();
+    }
+
+    public void TransferSoldiers()
+    {
+        Console.WriteLine("Список отряда 1 до перевода: ");
+
+        foreach (var soldier in _squad1)
+        {
+            soldier.ShowInfo();
+        }
+
+        var soldierToTransfer = _squad1.Where(soldier => soldier.Name.StartsWith("Б")).ToList();
+
+        foreach (var soldier in soldierToTransfer)
+        {
+            Console.WriteLine($"\nСолдат - {soldier.Name} переведен в отряд 2.");
+            _squad2.Add(soldier);
+        }
+
+        _squad1.RemoveAll(soldier => soldier.Name.StartsWith("Б"));
+
+        Console.WriteLine("\nСписок отряда 1 после перевода: ");
+
+        foreach (var soldier in _squad1)
+        {
+            soldier.ShowInfo();
+        }
+
+        Console.WriteLine("\nОтряд 2: ");
+
+        foreach (var soldier in _squad2)
+        {
+            soldier.ShowInfo();
+        }
+    }
+}
