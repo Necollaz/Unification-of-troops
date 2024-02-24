@@ -58,8 +58,8 @@ public class Army
             Console.WriteLine($"\nСолдат - {soldier.Name} переведен в отряд 2.");
         });
 
-        _squad2.AddRange(soldierToTransfer);
-        _squad1 = _squad1.Where(soldier => !soldier.Name.StartsWith(letter)).ToList();
+        _squad2 = _squad2.Union(soldierToTransfer).ToList();
+        _squad1 = _squad1.Except(soldierToTransfer).ToList();
 
         ShowSoldiers(_squad1);
         ShowSoldiers(_squad2);
